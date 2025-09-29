@@ -38,7 +38,6 @@
                         <tr>
                             <th>Date</th>
                             <th>Discussion Leader</th>
-                            <th>Co-Leader</th>
                             <th>Study Topic</th>
                         </tr>
                     </thead>
@@ -46,9 +45,8 @@
                         {% for item in schedule %}
                         <tr class="{% if not item.primary_leader and not item.secondary_leader %}special-event{% endif %}">
                             <td class="date-cell">{{ item.date }}</td>
-                            <td class="leader-cell">{{ item.primary_leader if item.primary_leader else "" }}</td>
-                            <td class="leader-cell">{{ item.secondary_leader if item.secondary_leader else "" }}</td>
-                            <td class="topic-cell" {% if item.primary_leader or item.secondary_leader %}data-leaders="Leaders: {% if item.primary_leader %}{{ item.primary_leader }}{% endif %}{% if item.primary_leader and item.secondary_leader %}, {% endif %}{% if item.secondary_leader %}{{ item.secondary_leader }}{% endif %}"{% endif %}>{{ item.topic }}</td>
+                            <td class="leader-cell">{% if item.primary_leader %}{{ item.primary_leader }}{% endif %}{% if item.primary_leader and item.secondary_leader %} & {% endif %}{% if item.secondary_leader %}{{ item.secondary_leader }}{% endif %}</td>
+                            <td class="topic-cell" {% if item.primary_leader or item.secondary_leader %}data-leaders="Leaders: {% if item.primary_leader %}{{ item.primary_leader }}{% endif %}{% if item.primary_leader and item.secondary_leader %} & {% endif %}{% if item.secondary_leader %}{{ item.secondary_leader }}{% endif %}"{% endif %}>{{ item.topic }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
