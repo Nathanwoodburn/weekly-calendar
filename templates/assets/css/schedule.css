@@ -66,11 +66,20 @@ header {
 }
 
 h1 {
-    font-size: 48px;
+    font-size: 42px;
     margin: 0;
-    padding: 20px 0;
+    padding: 15px 0 5px 0;
     color: var(--text-color);
     font-weight: 300;
+    letter-spacing: 1px;
+}
+
+.subtitle {
+    font-size: 18px;
+    color: var(--leader-color);
+    margin: 0 0 15px 0;
+    font-style: italic;
+    letter-spacing: 0.5px;
 }
 
 .theme-switcher {
@@ -263,7 +272,12 @@ h1 {
     
     h1 {
         font-size: 28px;
-        padding: 10px 0;
+        padding: 10px 0 5px 0;
+    }
+    
+    .subtitle {
+        font-size: 14px;
+        margin-bottom: 10px;
     }
     
     .theme-switcher {
@@ -326,25 +340,22 @@ h1 {
         font-size: 24px;
     }
     
-    .schedule-container {
-        padding: 12px 5px;
-        border-radius: 6px;
+    .subtitle {
+        font-size: 12px;
     }
     
-    .schedule-table {
-        font-size: 11px;
+    .study-info {
+        padding: 10px;
     }
     
-    .schedule-table th,
-    .schedule-table td {
-        padding: 6px 4px;
+    .study-info p {
+        font-size: 12px;
     }
     
-    /* Stack layout for very small screens */
-    .schedule-table th:nth-child(2),
-    .schedule-table td:nth-child(2),
-    .schedule-table th:nth-child(3),
-    .schedule-table td:nth-child(3) {
+    /* Hide emoji suffixes on mobile for cleaner look */
+    .schedule-table th:nth-child(2)::after,
+    .schedule-table th:nth-child(3)::after,
+    .schedule-table th:nth-child(4)::after {
         display: none;
     }
     
