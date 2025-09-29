@@ -1,5 +1,5 @@
 body {
-    background-color: #000000;
+    background-color: #e300eb;
     color: #ffffff;
 }
 h1 {
@@ -38,4 +38,25 @@ a:hover {
 .mike-section p {
     line-height: 1.6;
     margin-bottom: 15px;
+}
+
+/* Schedule link styling */
+.schedule-link {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: rgba(70, 70, 70, 0.8);
+    border: 2px solid #888;
+    border-radius: 8px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.schedule-link:hover {
+    background-color: rgba(100, 100, 100, 0.9);
+    border-color: #aaa;
+    text-decoration: none;
+    transform: translateY(-2px);
 }

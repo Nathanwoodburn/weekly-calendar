@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Schedule</title>
+    <link rel="icon" href="/assets/img/favicon.png" type="image/png">
+    <link rel="stylesheet" href="/assets/css/schedule.css">
+</head>
+
+<body data-theme="dark">
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>Weekly Schedule</h1>
+                <div class="theme-switcher desktop-only">
+                    <span class="theme-label">Theme:</span>
+                    <div class="theme-buttons">
+                        <button class="theme-btn active" data-theme="dark" title="Dark Theme">
+                            <span class="theme-icon">🌙</span>
+                            <span class="theme-name">Dark</span>
+                        </button>
+                        <button class="theme-btn" data-theme="pink" title="Pink Theme">
+                            <span class="theme-icon">🌸</span>
+                            <span class="theme-name">Pink</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        
+        <main>
+            <div class="schedule-container">
+                <table class="schedule-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Primary Leader</th>
+                            <th>Secondary Leader</th>
+                            <th>Topic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in schedule %}
+                        <tr class="{% if not item.primary_leader and not item.secondary_leader %}special-event{% endif %}">
+                            <td class="date-cell">{{ item.date }}</td>
+                            <td class="leader-cell">{{ item.primary_leader if item.primary_leader else "" }}</td>
+                            <td class="leader-cell">{{ item.secondary_leader if item.secondary_leader else "" }}</td>
+                            <td class="topic-cell" data-leaders="{% if item.primary_leader or item.secondary_leader %}Leaders: {{ item.primary_leader or '-' }}, {{ item.secondary_leader or '-' }}{% endif %}">{{ item.topic }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <div class="theme-switcher mobile-only">
+            <span class="theme-label">Theme:</span>
+            <div class="theme-buttons">
+                <button class="theme-btn active" data-theme="dark" title="Dark Theme">
+                    <span class="theme-icon">🌙</span>
+                    <span class="theme-name">Dark</span>
+                </button>
+                <button class="theme-btn" data-theme="pink" title="Pink Theme">
+                    <span class="theme-icon">🌸</span>
+                    <span class="theme-name">Pink</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Theme switcher functionality
+        const themeButtons = document.querySelectorAll('.theme-btn');
+        const body = document.body;
+
+        // Load saved theme or default to dark
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+        
+        // Update active button for both switchers
+        themeButtons.forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.theme === savedTheme);
+        });
+
+        // Handle theme changes
+        themeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const selectedTheme = btn.dataset.theme;
+                
+                // Update body theme
+                body.setAttribute('data-theme', selectedTheme);
+                
+                // Update active states for both switchers
+                themeButtons.forEach(b => b.classList.remove('active'));
+                document.querySelectorAll(`[data-theme="${selectedTheme}"]`).forEach(b => {
+                    b.classList.add('active');
+                });
+                
+                // Save to localStorage
+                localStorage.setItem('theme', selectedTheme);
+            });
+        });
+    </script>
+</body>
+
+</html>

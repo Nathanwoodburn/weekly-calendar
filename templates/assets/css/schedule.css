@@ -1,0 +1,418 @@
+/* Theme Variables */
+:root {
+    /* Dark Theme (Default) */
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --container-bg: rgba(30, 30, 30, 0.8);
+    --table-header-bg: rgba(70, 70, 70, 0.8);
+    --table-border: #444;
+    --table-header-border: #555;
+    --row-hover-bg: rgba(50, 50, 50, 0.5);
+    --special-event-bg: rgba(100, 50, 150, 0.2);
+    --special-event-hover: rgba(100, 50, 150, 0.3);
+    --date-color: #e0e0e0;
+    --leader-color: #b0b0b0;
+    --topic-color: #d0d0d0;
+    --empty-leader-color: #666;
+    --select-bg: rgba(50, 50, 50, 0.8);
+    --select-border: #666;
+}
+
+[data-theme="pink"] {
+    --bg-color: #1a0d14;
+    --text-color: #f8e8f0;
+    --container-bg: rgba(60, 30, 45, 0.8);
+    --table-header-bg: rgba(120, 60, 90, 0.8);
+    --table-border: #8b4a6b;
+    --table-header-border: #a55577;
+    --row-hover-bg: rgba(80, 40, 60, 0.5);
+    --special-event-bg: rgba(180, 100, 150, 0.3);
+    --special-event-hover: rgba(180, 100, 150, 0.4);
+    --date-color: #f0c8d8;
+    --leader-color: #d8a8c0;
+    --topic-color: #e8c8d8;
+    --empty-leader-color: #996677;
+    --select-bg: rgba(80, 40, 60, 0.8);
+    --select-border: #a55577;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 48px;
+    margin: 0;
+    padding: 20px 0;
+    color: var(--text-color);
+    font-weight: 300;
+}
+
+.theme-switcher {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 14px;
+}
+
+.theme-label {
+    color: var(--text-color);
+    font-weight: 500;
+    margin-right: 5px;
+}
+
+.theme-buttons {
+    display: flex;
+    gap: 8px;
+    background-color: var(--container-bg);
+    padding: 4px;
+    border-radius: 12px;
+    border: 1px solid var(--table-border);
+}
+
+.theme-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: none;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--leader-color);
+    font-size: 13px;
+    font-weight: 500;
+    position: relative;
+    overflow: hidden;
+}
+
+.theme-btn:hover {
+    background-color: var(--row-hover-bg);
+    transform: translateY(-1px);
+}
+
+.theme-btn.active {
+    background-color: var(--special-event-bg);
+    color: var(--text-color);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-btn.active[data-theme="dark"] {
+    background: linear-gradient(135deg, rgba(100, 50, 150, 0.3), rgba(50, 50, 100, 0.3));
+}
+
+.theme-btn.active[data-theme="pink"] {
+    background: linear-gradient(135deg, rgba(255, 192, 203, 0.3), rgba(219, 112, 147, 0.3));
+}
+
+.theme-icon {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.theme-btn:hover .theme-icon {
+    transform: scale(1.1);
+}
+
+.theme-btn.active .theme-icon {
+    transform: scale(1.05);
+}
+
+.theme-name {
+    font-family: inherit;
+    letter-spacing: 0.5px;
+}
+
+.schedule-container {
+    background-color: var(--container-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow-x: auto;
+    transition: background-color 0.3s ease;
+}
+
+.schedule-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    font-size: 16px;
+}
+
+.schedule-table th {
+    background-color: var(--table-header-bg);
+    color: var(--text-color);
+    padding: 16px 12px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 3px solid var(--table-header-border);
+    position: sticky;
+    top: 0;
+    transition: background-color 0.3s ease;
+}
+
+.schedule-table td {
+    padding: 14px 12px;
+    border-bottom: 1px solid var(--table-border);
+    vertical-align: top;
+    transition: border-color 0.3s ease;
+}
+
+.schedule-table tr:hover {
+    background-color: var(--row-hover-bg);
+    transition: background-color 0.2s ease;
+}
+
+.special-event {
+    background-color: var(--special-event-bg);
+    transition: background-color 0.3s ease;
+}
+
+.special-event:hover {
+    background-color: var(--special-event-hover);
+}
+
+.date-cell {
+    font-weight: 600;
+    color: var(--date-color);
+    min-width: 120px;
+    transition: color 0.3s ease;
+}
+
+.leader-cell {
+    color: var(--leader-color);
+    min-width: 140px;
+    transition: color 0.3s ease;
+}
+
+.topic-cell {
+    color: var(--topic-color);
+    max-width: 400px;
+    word-wrap: break-word;
+    transition: color 0.3s ease;
+}
+
+/* Special styling for empty leader cells */
+.leader-cell:contains("-") {
+    color: #666;
+    font-style: italic;
+}
+
+/* Remove old select styles */
+.theme-switcher select {
+    display: none;
+}
+
+.desktop-only {
+    display: flex;
+}
+
+.mobile-only {
+    display: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 10px 5px;
+    }
+    
+    .header-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .desktop-only {
+        display: none;
+    }
+    
+    .mobile-only {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+        padding: 15px 0;
+        border-top: 1px solid var(--table-border);
+    }
+    
+    h1 {
+        font-size: 28px;
+        padding: 10px 0;
+    }
+    
+    .theme-switcher {
+        justify-content: center;
+    }
+    
+    .theme-buttons {
+        background-color: var(--container-bg);
+    }
+    
+    .schedule-container {
+        padding: 15px 10px;
+        margin: 0;
+        border-radius: 8px;
+    }
+    
+    .schedule-table {
+        font-size: 13px;
+        width: 100%;
+        min-width: 100%;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 8px 6px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+    }
+    
+    .date-cell,
+    .leader-cell {
+        min-width: auto;
+        font-size: 12px;
+    }
+    
+    .date-cell {
+        width: 20%;
+        font-size: 11px;
+        font-weight: 700;
+    }
+    
+    .leader-cell {
+        width: 18%;
+        font-size: 10px;
+    }
+    
+    .topic-cell {
+        width: 44%;
+        font-size: 12px;
+        line-height: 1.3;
+    }
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 8px 3px;
+    }
+    
+    h1 {
+        font-size: 24px;
+    }
+    
+    .schedule-container {
+        padding: 12px 5px;
+        border-radius: 6px;
+    }
+    
+    .schedule-table {
+        font-size: 11px;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 6px 4px;
+    }
+    
+    /* Stack layout for very small screens */
+    .schedule-table th:nth-child(2),
+    .schedule-table td:nth-child(2),
+    .schedule-table th:nth-child(3),
+    .schedule-table td:nth-child(3) {
+        display: none;
+    }
+    
+    .date-cell {
+        width: 30%;
+        font-size: 12px;
+    }
+    
+    .topic-cell {
+        width: 70%;
+        font-size: 11px;
+        position: relative;
+    }
+    
+    .topic-cell::before {
+        content: attr(data-leaders);
+        display: block;
+        font-size: 9px;
+        color: var(--empty-leader-color);
+        margin-bottom: 3px;
+        font-style: italic;
+    }
+}
+
+@media (max-width: 480px) {
+    .mobile-only .theme-switcher {
+        flex-direction: row;
+        gap: 8px;
+    }
+    
+    .mobile-only .theme-label {
+        margin-right: 0;
+        font-size: 12px;
+    }
+    
+    .mobile-only .theme-btn .theme-name {
+        display: none;
+    }
+    
+    .mobile-only .theme-btn {
+        padding: 8px;
+        min-width: 40px;
+        justify-content: center;
+    }
+    
+    .mobile-only .theme-icon {
+        font-size: 16px;
+    }
+    
+    .schedule-container {
+        padding: 10px 3px;
+    }
+    
+    .schedule-table {
+        font-size: 10px;
+    }
+    
+    .schedule-table th,
+    .schedule-table td {
+        padding: 5px 3px;
+    }
+    
+    .date-cell {
+        font-size: 11px;
+    }
+    
+    .topic-cell {
+        font-size: 10px;
+        line-height: 1.2;
+    }
+}

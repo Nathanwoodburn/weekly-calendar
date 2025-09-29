@@ -18,6 +18,22 @@ import dotenv
 
 dotenv.load_dotenv()
 
+def load_schedule_data():
+    """Load schedule data from JSON file"""
+    try:
+        with open('schedule_data.json', 'r') as f:
+            data = json.load(f)
+            return data.get('schedule', [])
+    except FileNotFoundError:
+        print("Warning: schedule_data.json not found. Using empty schedule.")
+        return []
+    except json.JSONDecodeError:
+        print("Warning: Invalid JSON in schedule_data.json. Using empty schedule.")
+        return []
+
+# Load schedule data from JSON file
+SCHEDULE_DATA = load_schedule_data()
+
 app = Flask(__name__)
 
 
@@ -74,9 +90,7 @@ def wellknown(path):
 # region Main routes
 @app.route("/")
 def index():
-    # Get current time in the format "dd MMM YYYY hh:mm AM/PM"
-    current_datetime = datetime.now().strftime("%d %b %Y %I:%M %p")
-    return render_template("index.html", datetime=current_datetime)
+    return render_template("schedule.html", schedule=SCHEDULE_DATA)
 
 
 @app.route("/<path:path>")
@@ -125,6 +139,15 @@ def api_data():
     }
     return jsonify(data)
 
+
+@app.route("/api/v1/schedule", methods=["GET"])
+def api_schedule():
+    """
+    API endpoint that returns the weekly schedule data.
+    """
+    # Reload data in case file has been updated
+    current_schedule = load_schedule_data()
+    return jsonify({"schedule": current_schedule})
 
 # endregion
 
