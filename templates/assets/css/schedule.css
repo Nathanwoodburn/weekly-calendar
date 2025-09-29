@@ -295,14 +295,14 @@ h1 {
     }
     
     .schedule-table {
-        font-size: 13px;
+        font-size: 14px;
         width: 100%;
         min-width: 100%;
     }
     
     .schedule-table th,
     .schedule-table td {
-        padding: 8px 6px;
+        padding: 10px 8px;
         word-wrap: break-word;
         overflow-wrap: break-word;
     }
@@ -310,24 +310,24 @@ h1 {
     .date-cell,
     .leader-cell {
         min-width: auto;
-        font-size: 12px;
+        font-size: 13px;
     }
     
     .date-cell {
         width: 20%;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 700;
     }
     
     .leader-cell {
         width: 18%;
-        font-size: 10px;
+        font-size: 12px;
     }
     
     .topic-cell {
         width: 44%;
-        font-size: 12px;
-        line-height: 1.3;
+        font-size: 13px;
+        line-height: 1.4;
     }
 }
 
@@ -359,24 +359,38 @@ h1 {
         display: none;
     }
     
+    /* Stack layout for very small screens */
+    .schedule-table th:nth-child(2),
+    .schedule-table td:nth-child(2),
+    .schedule-table th:nth-child(3),
+    .schedule-table td:nth-child(3) {
+        display: none;
+    }
+    
     .date-cell {
         width: 30%;
-        font-size: 12px;
+        font-size: 14px;
     }
     
     .topic-cell {
         width: 70%;
-        font-size: 11px;
+        font-size: 13px;
         position: relative;
+        line-height: 1.4;
     }
     
-    .topic-cell::before {
+    .topic-cell[data-leaders]::before {
         content: attr(data-leaders);
         display: block;
-        font-size: 9px;
+        font-size: 11px;
         color: var(--empty-leader-color);
-        margin-bottom: 3px;
+        margin-bottom: 4px;
         font-style: italic;
+    }
+    
+    /* Don't show leader info for special events */
+    .special-event .topic-cell[data-leaders]::before {
+        display: none;
     }
 }
 
@@ -406,24 +420,28 @@ h1 {
     }
     
     .schedule-container {
-        padding: 10px 3px;
+        padding: 12px 5px;
     }
     
     .schedule-table {
-        font-size: 10px;
+        font-size: 12px;
     }
     
     .schedule-table th,
     .schedule-table td {
-        padding: 5px 3px;
+        padding: 8px 5px;
     }
     
     .date-cell {
-        font-size: 11px;
+        font-size: 13px;
     }
     
     .topic-cell {
+        font-size: 12px;
+        line-height: 1.3;
+    }
+    
+    .topic-cell[data-leaders]::before {
         font-size: 10px;
-        line-height: 1.2;
     }
 }
