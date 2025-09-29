@@ -4,4 +4,3 @@ __pycache__/
 .env
 .vs/
 .venv/
-schedule_data.json

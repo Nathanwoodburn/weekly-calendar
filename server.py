@@ -15,14 +15,62 @@ import json
 import requests
 from datetime import datetime
 import dotenv
+import csv
+from io import StringIO
 
 dotenv.load_dotenv()
 
 def load_schedule_data():
-    """Load schedule data from JSON file"""
+    """Load schedule data from Google Sheets or fallback to JSON file"""
+    # Try to load from Google Sheets first
+    google_sheet_url = os.getenv('GOOGLE_SHEET_URL')
+    
+    if google_sheet_url:
+        try:
+            # Convert Google Sheets URL to CSV export URL
+            if '/edit' in google_sheet_url:
+                csv_url = google_sheet_url.replace('/edit#gid=', '/export?format=csv&gid=')
+                csv_url = csv_url.replace('/edit', '/export?format=csv')
+            else:
+                csv_url = google_sheet_url
+            
+            print(f"Fetching schedule from Google Sheets: {csv_url}")
+            
+            response = requests.get(csv_url, timeout=10)
+            response.raise_for_status()
+            
+            # Parse CSV data
+            csv_data = StringIO(response.text)
+            reader = csv.DictReader(csv_data)
+            
+            schedule = []
+            for row in reader:
+                # Map CSV columns to our expected format
+                # Expected columns: Date, Primary Leader, Secondary Leader, Topic
+                schedule_item = {
+                    "date": row.get('Date', '').strip(),
+                    "primary_leader": row.get('Primary Leader', '').strip(),
+                    "secondary_leader": row.get('Secondary Leader', '').strip(),
+                    "topic": row.get('Topic', '').strip()
+                }
+                
+                # Only add rows that have at least a date and topic
+                if schedule_item['date'] and schedule_item['topic']:
+                    schedule.append(schedule_item)
+            
+            print(f"Successfully loaded {len(schedule)} items from Google Sheets")
+            return schedule
+            
+        except requests.RequestException as e:
+            print(f"Error fetching from Google Sheets: {e}")
+        except Exception as e:
+            print(f"Error parsing Google Sheets data: {e}")
+    
+    # Fallback to JSON file
     try:
         with open('schedule_data.json', 'r') as f:
             data = json.load(f)
+            print("Loaded schedule from local JSON file")
             return data.get('schedule', [])
     except FileNotFoundError:
         print("Warning: schedule_data.json not found. Using empty schedule.")
@@ -120,33 +168,17 @@ def catch_all(path: str):
 
 # region API routes
 
-api_requests = 0
-
-@app.route("/api/v1/data", methods=["GET"])
-def api_data():
-    """
-    Example API endpoint that returns some data.
-    You can modify this to return whatever data you need.
-    """
-
-    global api_requests
-    api_requests += 1
-
-    data = {
-        "header": "Sample API Response",
-        "content": f"Hello, this is a sample API response! You have called this endpoint {api_requests} times.",
-        "timestamp": datetime.now().isoformat(),
-    }
-    return jsonify(data)
-
 
 @app.route("/api/v1/schedule", methods=["GET"])
 def api_schedule():
     """
     API endpoint that returns the weekly schedule data.
     """
-    # Reload data in case file has been updated
+    # Always reload data in case Google Sheet has been updated
     current_schedule = load_schedule_data()
+    # Set the global variable to the latest data
+    global SCHEDULE_DATA
+    SCHEDULE_DATA = current_schedule
     return jsonify({"schedule": current_schedule})
 
 # endregion
