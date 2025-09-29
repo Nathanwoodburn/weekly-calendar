@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/assets/css/schedule.css">
 </head>
 
-<body data-theme="dark">
+<body data-theme="pink">
     <div class="container">
         <header>
             <div class="header-content">
@@ -18,11 +18,11 @@
                 <div class="theme-switcher desktop-only">
                     <span class="theme-label">Theme:</span>
                     <div class="theme-buttons">
-                        <button class="theme-btn active" data-theme="dark" title="Dark Theme">
+                        <button class="theme-btn" data-theme="dark" title="Dark Theme">
                             <span class="theme-icon">🌙</span>
                             <span class="theme-name">Dark</span>
                         </button>
-                        <button class="theme-btn" data-theme="pink" title="Pink Theme">
+                        <button class="theme-btn active" data-theme="pink" title="Pink Theme">
                             <span class="theme-icon">🌸</span>
                             <span class="theme-name">Pink</span>
                         </button>
@@ -59,11 +59,11 @@
         <div class="theme-switcher mobile-only">
             <span class="theme-label">Theme:</span>
             <div class="theme-buttons">
-                <button class="theme-btn active" data-theme="dark" title="Dark Theme">
+                <button class="theme-btn" data-theme="dark" title="Dark Theme">
                     <span class="theme-icon">🌙</span>
                     <span class="theme-name">Dark</span>
                 </button>
-                <button class="theme-btn" data-theme="pink" title="Pink Theme">
+                <button class="theme-btn active" data-theme="pink" title="Pink Theme">
                     <span class="theme-icon">🌸</span>
                     <span class="theme-name">Pink</span>
                 </button>
@@ -76,8 +76,8 @@
         const themeButtons = document.querySelectorAll('.theme-btn');
         const body = document.body;
 
-        // Load saved theme or default to dark
-        const savedTheme = localStorage.getItem('theme') || 'dark';
+        // Load saved theme or default to pink
+        const savedTheme = localStorage.getItem('theme') || 'pink';
         body.setAttribute('data-theme', savedTheme);
         
         // Update active button for both switchers
