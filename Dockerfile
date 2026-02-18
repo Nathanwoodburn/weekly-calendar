@@ -19,12 +19,8 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --locked
 
 # Copy only app source files
-COPY blueprints blueprints
-COPY main.py server.py curl.py tools.py mail.py cache_helper.py ./
+COPY main.py server.py ./
 COPY templates templates
-COPY data data
-COPY pwa pwa
-COPY .well-known .well-known
 
 # Clean up caches and pycache
 RUN rm -rf /root/.cache/uv
