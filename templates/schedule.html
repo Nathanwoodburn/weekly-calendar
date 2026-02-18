@@ -43,10 +43,10 @@
                     </thead>
                     <tbody>
                         {% for item in schedule %}
-                        <tr class="{% if not item.primary_leader and not item.secondary_leader %}special-event{% endif %}">
+                        <tr class="{% if not item.leaders %}special-event{% endif %}">
                             <td class="date-cell">{{ item.date }}</td>
-                            <td class="leader-cell">{% if item.primary_leader %}{{ item.primary_leader }}{% endif %}{% if item.primary_leader and item.secondary_leader %} & {% endif %}{% if item.secondary_leader %}{{ item.secondary_leader }}{% endif %}</td>
-                            <td class="topic-cell" {% if item.primary_leader or item.secondary_leader %}data-leaders="Leaders: {% if item.primary_leader %}{{ item.primary_leader }}{% endif %}{% if item.primary_leader and item.secondary_leader %} & {% endif %}{% if item.secondary_leader %}{{ item.secondary_leader }}{% endif %}"{% endif %}>{{ item.topic }}</td>
+                            <td class="leader-cell">{% if item.leaders %}{% if item.leaders|length > 1 %}{{ item.leaders[:-1]|join(', ') }} & {{ item.leaders[-1] }}{% else %}{{ item.leaders[0] }}{% endif %}{% endif %}</td>
+                            <td class="topic-cell" {% if item.leaders %}data-leaders="Leaders: {% if item.leaders|length > 1 %}{{ item.leaders[:-1]|join(', ') }} & {{ item.leaders[-1] }}{% else %}{{ item.leaders[0] }}{% endif %}"{% endif %}>{{ item.topic }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -102,6 +102,8 @@
             });
         });
     </script>
+
+    {# <script>console.log({{schedule | tojson}});</script> #}
 </body>
 
 </html>
