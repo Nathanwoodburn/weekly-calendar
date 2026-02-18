@@ -45,17 +45,9 @@ RUN apk add --no-cache curl
 
 # Copy only whats needed for runtime
 COPY --from=build --chown=appuser:appgroup /app/.venv /app/.venv
-COPY --from=build --chown=appuser:appgroup /app/blueprints /app/blueprints
 COPY --from=build --chown=appuser:appgroup /app/templates /app/templates
-COPY --from=build --chown=appuser:appgroup /app/data /app/data
-COPY --from=build --chown=appuser:appgroup /app/pwa /app/pwa
-COPY --from=build --chown=appuser:appgroup /app/.well-known /app/.well-known
 COPY --from=build --chown=appuser:appgroup /app/main.py /app/
 COPY --from=build --chown=appuser:appgroup /app/server.py /app/
-COPY --from=build --chown=appuser:appgroup /app/curl.py /app/
-COPY --from=build --chown=appuser:appgroup /app/tools.py /app/
-COPY --from=build --chown=appuser:appgroup /app/mail.py /app/
-COPY --from=build --chown=appuser:appgroup /app/cache_helper.py /app/
 
 USER appuser
 EXPOSE 5000
