@@ -1,5 +1,3 @@
-from flask import Flask
-from server import app
 import server
 from gunicorn.app.base import BaseApplication
 import os
@@ -20,23 +18,21 @@ class GunicornApp(BaseApplication):
     def load(self):
         return self.application
 
-    
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     dotenv.load_dotenv()
-    
-    workers = os.getenv('WORKERS', 1)
-    threads = os.getenv('THREADS', 2)
+
+    workers = os.getenv("WORKERS", 1)
+    threads = os.getenv("THREADS", 2)
     workers = int(workers)
     threads = int(threads)
 
     options = {
-        'bind': '0.0.0.0:5000',
-        'workers': workers,
-        'threads': threads,
+        "bind": "0.0.0.0:5000",
+        "workers": workers,
+        "threads": threads,
     }
 
     gunicorn_app = GunicornApp(server.app, options)
-    print(f'Starting server with {workers} workers and {threads} threads', flush=True)
+    print(f"Starting server with {workers} workers and {threads} threads", flush=True)
     gunicorn_app.run()
