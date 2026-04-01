@@ -43,8 +43,8 @@
                     </thead>
                     <tbody>
                         {% for item in schedule %}
-                        <tr class="{% if not item.leaders %}special-event{% endif %}">
-                            <td class="date-cell">{{ item.date }}</td>
+                        <tr class="{% if not item.leaders %}special-event{% endif %} {% if upcoming_week_index is not none and loop.index0 == upcoming_week_index %}upcoming-week{% endif %}">
+                            <td class="date-cell{% if upcoming_week_index is not none and loop.index0 == upcoming_week_index %} upcoming-date{% endif %}">{{ item.date }}</td>
                             <td class="leader-cell">{% if item.leaders %}{% if item.leaders|length > 1 %}{{ item.leaders[:-1]|join(', ') }} & {{ item.leaders[-1] }}{% else %}{{ item.leaders[0] }}{% endif %}{% endif %}</td>
                             <td class="topic-cell" {% if item.leaders %}data-leaders="Leaders: {% if item.leaders|length > 1 %}{{ item.leaders[:-1]|join(', ') }} & {{ item.leaders[-1] }}{% else %}{{ item.leaders[0] }}{% endif %}"{% endif %}>{{ item.topic }}</td>
                         </tr>

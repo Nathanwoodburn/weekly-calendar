@@ -16,6 +16,9 @@
     --empty-leader-color: #666;
     --select-bg: rgba(50, 50, 50, 0.8);
     --select-border: #666;
+    --upcoming-accent: #7dd3fc;
+    --upcoming-row-bg: rgba(125, 211, 252, 0.14);
+    --upcoming-glow: rgba(125, 211, 252, 0.28);
 }
 
 [data-theme="pink"] {
@@ -34,6 +37,9 @@
     --empty-leader-color: #996677;
     --select-bg: rgba(80, 40, 60, 0.8);
     --select-border: #a55577;
+    --upcoming-accent: #f9a8d4;
+    --upcoming-row-bg: rgba(249, 168, 212, 0.16);
+    --upcoming-glow: rgba(249, 168, 212, 0.32);
 }
 
 body {
@@ -207,6 +213,36 @@ h1 {
     background-color: var(--special-event-hover);
 }
 
+.upcoming-week {
+    background: linear-gradient(90deg, var(--upcoming-row-bg) 0%, transparent 72%);
+    box-shadow: inset 4px 0 0 var(--upcoming-accent), inset 0 0 0 1px var(--upcoming-glow);
+}
+
+.upcoming-week:hover {
+    background: linear-gradient(90deg, var(--upcoming-row-bg) 0%, var(--row-hover-bg) 72%);
+}
+
+.upcoming-date {
+    position: relative;
+    padding-left: 12px;
+    font-weight: 700;
+}
+
+.upcoming-date::before {
+    content: none;
+}
+
+.upcoming-date::after {
+    content: "next up";
+    display: block;
+    margin-top: 2px;
+    font-size: 10px;
+    line-height: 1;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--upcoming-accent);
+}
+
 .date-cell {
     font-weight: 600;
     color: var(--date-color);
@@ -329,6 +365,15 @@ h1 {
         font-size: 13px;
         font-weight: 700;
     }
+
+    .upcoming-date {
+        padding-left: 8px;
+    }
+
+    .upcoming-date::after {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
     
     .leader-cell {
         width: 30%;
@@ -378,6 +423,11 @@ h1 {
     .date-cell {
         width: 30%;
         font-size: 14px;
+        padding-left: 10px !important;
+    }
+
+    .upcoming-date::after {
+        display: none;
     }
     
     .topic-cell {

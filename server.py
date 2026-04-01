@@ -12,6 +12,7 @@ import requests
 import dotenv
 import csv
 from io import StringIO
+from datetime import date, datetime
 
 dotenv.load_dotenv()
 
@@ -86,6 +87,69 @@ SCHEDULE_DATA = load_schedule_data()
 app = Flask(__name__)
 
 
+def parse_schedule_date(raw_date: str) -> date | None:
+    """Parse a schedule date string using common formats."""
+    if not raw_date:
+        return None
+
+    cleaned = raw_date.strip()
+
+    # Try ISO date first.
+    try:
+        return date.fromisoformat(cleaned)
+    except ValueError:
+        pass
+
+    formats = [
+        "%d/%m/%Y",
+        "%m/%d/%Y",
+        "%d/%m/%y",
+        "%m/%d/%y",
+        "%d-%m-%Y",
+        "%m-%d-%Y",
+        "%d %b %Y",
+        "%d %B %Y",
+        "%b %d, %Y",
+        "%B %d, %Y",
+        "%a %d %b %Y",
+        "%A %d %B %Y",
+    ]
+
+    for fmt in formats:
+        try:
+            return datetime.strptime(cleaned, fmt).date()
+        except ValueError:
+            continue
+
+    month_day_formats = [
+        "%B %d",
+        "%b %d",
+        "%B %d,",
+        "%b %d,",
+    ]
+
+    current_year = date.today().year
+    for fmt in month_day_formats:
+        try:
+            # Add current year to the end of the string for parsing
+            date_str_with_year = f"{cleaned} {current_year}"
+            return datetime.strptime(date_str_with_year, fmt + " %Y").date()
+        except ValueError:
+            continue
+
+    return None
+
+
+def find_upcoming_week_index(schedule: list[dict]) -> int | None:
+    """Return the index of the next schedule item that is today or later."""
+    today = date.today()
+    for index, item in enumerate(schedule):
+        parsed_date = parse_schedule_date(item.get("date", ""))
+        if parsed_date and parsed_date >= today:
+            return index
+    return None
+
+
 def find(name, path):
     for root, dirs, files in os.walk(path):
         if name in files:
@@ -140,7 +204,12 @@ def wellknown(path):
 # region Main routes
 @app.route("/")
 def index():
-    return render_template("schedule.html", schedule=SCHEDULE_DATA)
+    upcoming_week_index = find_upcoming_week_index(SCHEDULE_DATA)
+    return render_template(
+        "schedule.html",
+        schedule=SCHEDULE_DATA,
+        upcoming_week_index=upcoming_week_index,
+    )
 
 
 @app.route("/<path:path>")
@@ -196,4 +265,4 @@ def not_found(e):
 
 # endregion
 if __name__ == "__main__":
-    app.run(debug=True, port=5000, host="0.0.0.0")
+    app.run(debug=True, port=5000, host="127.0.0.1")
