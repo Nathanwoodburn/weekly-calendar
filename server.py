@@ -253,6 +253,14 @@ def api_schedule():
     return jsonify({"schedule": current_schedule})
 
 
+@app.route("/api/v1/status")
+def api_status():
+    """
+    API endpoint that returns the status of the server.
+    """
+    return jsonify({"status": "ok", "timestamp": datetime.now().isoformat()})
+
+
 # endregion
 
 
